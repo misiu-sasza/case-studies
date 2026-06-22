@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Email Performance — Bikebac Case Study</title>
+<style>
+  :root {
+    --background: #0a0a0a;
+    --surface: #111111;
+    --border: #1e1e1e;
+    --foreground: #f0f0f0;
+    --muted: #6b6b6b;
+    --accent: #d4a843;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: -apple-system, "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+  }
+
+  .display {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+  }
+
+  .mono {
+    font-family: "SF Mono", "JetBrains Mono", "Courier New", monospace;
+    letter-spacing: 0.02em;
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 120px 32px 80px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hero-eyebrow {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  .hero h1 {
+    font-size: clamp(40px, 6vw, 76px);
+    line-height: 0.98;
+    margin-bottom: 32px;
+    max-width: 900px;
+  }
+
+  .hero h1 .accent-word {
+    color: var(--accent);
+  }
+
+  .hero-sub {
+    font-size: 18px;
+    color: var(--muted);
+    max-width: 620px;
+    margin-bottom: 56px;
+  }
+
+  .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .hero-stat {
+    background: var(--background);
+    padding: 28px 20px;
+  }
+
+  .hero-stat-num {
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--foreground);
+    margin-bottom: 6px;
+  }
+
+  .hero-stat-num .accent-word { color: var(--accent); }
+
+  .hero-stat-label {
+    font-size: 12px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  /* ===== SECTION INTRO ===== */
+  .method {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 64px 32px;
+    border-bottom: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 48px;
+  }
+
+  .method-label {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .method-text {
+    font-size: 17px;
+    color: var(--muted);
+    max-width: 640px;
+  }
+
+  .method-text strong {
+    color: var(--foreground);
+    font-weight: 600;
+  }
+
+  /* ===== EXHIBITS ===== */
+  .exhibit {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 96px 32px;
+    border-bottom: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: start;
+  }
+
+  .exhibit.reverse .exhibit-image { order: 2; }
+  .exhibit.reverse .exhibit-content { order: 1; }
+
+  .exhibit-image-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+  }
+
+  .exhibit-image-wrap img {
+    width: 100%;
+    display: block;
+    border-radius: 6px;
+    max-height: 720px;
+    object-fit: contain;
+    object-position: top;
+    background: #fff;
+  }
+
+  .exhibit-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 5px 12px;
+    border-radius: 100px;
+    margin-bottom: 20px;
+  }
+
+  .exhibit-number {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+
+  .exhibit h2 {
+    font-size: 34px;
+    line-height: 1.05;
+    margin-bottom: 16px;
+    letter-spacing: -0.01em;
+  }
+
+  .exhibit-subject {
+    font-size: 15px;
+    color: var(--muted);
+    margin-bottom: 32px;
+    font-style: italic;
+  }
+
+  .exhibit-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .bar-row {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .bar-row-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 13px;
+  }
+
+  .bar-row-label { color: var(--muted); }
+
+  .bar-row-value {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--foreground);
+  }
+
+  .bar-row-value .lift {
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 600;
+    margin-left: 6px;
+  }
+
+  .bar-track {
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .bar-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 3px;
+  }
+
+  .bar-baseline-marker {
+    position: absolute;
+    top: -3px;
+    height: 12px;
+    width: 2px;
+    background: var(--muted);
+  }
+
+  /* ===== CLOSING ===== */
+  .closing {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 96px 32px 140px;
+  }
+
+  .closing-label {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 24px;
+  }
+
+  .closing h2 {
+    font-size: 36px;
+    max-width: 760px;
+    line-height: 1.15;
+    margin-bottom: 24px;
+    letter-spacing: -0.01em;
+  }
+
+  .closing p {
+    font-size: 16px;
+    color: var(--muted);
+    max-width: 640px;
+  }
+
+  .footnote {
+    margin-top: 48px;
+    font-size: 12px;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+    padding-top: 24px;
+  }
+
+  @media (max-width: 880px) {
+    .hero { padding: 80px 20px 56px; }
+    .hero-stats { grid-template-columns: repeat(2, 1fr); }
+    .method { grid-template-columns: 1fr; gap: 20px; padding: 48px 20px; }
+    .exhibit {
+      grid-template-columns: 1fr;
+      gap: 32px;
+      padding: 56px 20px;
+    }
+    .exhibit.reverse .exhibit-image { order: 1; }
+    .exhibit.reverse .exhibit-content { order: 2; }
+    .exhibit-image-wrap { position: static; }
+    .exhibit h2 { font-size: 26px; }
+    .closing { padding: 64px 20px 100px; }
+    .closing h2 { font-size: 28px; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-eyebrow">Bikebac &middot; Klaviyo email program</div>
+    <h1 class="display">Five sends that beat<br>the <span class="accent-word">account average</span></h1>
+    <p class="hero-sub">A breakdown of the highest-converting emails across a year of campaigns and flows — what they had in common, and what made each one outperform the rest of the program.</p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-num"><span class="accent-word">$8,917</span></div>
+        <div class="hero-stat-label">Top single email, revenue</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">1.86%</div>
+        <div class="hero-stat-label">Best campaign conversion rate</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">63%</div>
+        <div class="hero-stat-label">Best campaign open rate</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">5</div>
+        <div class="hero-stat-label">Distinct formats, all outperforming</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- METHOD -->
+  <section class="method">
+    <div class="method-label">The baseline</div>
+    <div class="method-text">
+      Across roughly 70 campaign sends and 20 live flows in the year following June 2025, the account averaged a <strong>0.3% click-to-conversion rate</strong> on broad list sends and a <strong>46% open rate</strong>. The five emails below didn't just beat those numbers — each beat them through a different mechanism: segmentation, urgency, narrative trust-building, visual proof, or layered design. That variety is the actual finding: there's no single winning format, there's a winning fit between message and moment.
+    </div>
+  </section>
+
+  <!-- EXHIBIT 1: WELCOME FLOW -->
+  <section class="exhibit">
+    <div class="exhibit-image">
+      <div class="exhibit-image-wrap">
+        <img src="images/welcome_flow_top.png" alt="Welcome series flow email, Reminder of Incentive">
+      </div>
+    </div>
+    <div class="exhibit-content">
+      <div class="exhibit-tag">Flow &middot; Email 3 of 4</div>
+      <div class="exhibit-number mono">EXHIBIT 01</div>
+      <h2 class="display">The top earner wasn't a campaign at all</h2>
+      <p class="exhibit-subject">"Reminder of Incentive" — Welcome Series, rebuilt May 2025</p>
+
+      <div class="exhibit-bars">
+        <div class="bar-row">
+          <div class="bar-row-top">
+            <span class="bar-row-label">Revenue (single message, trailing 12mo)</span>
+            <span class="bar-row-value">$8,917<span class="lift">highest of any flow email</span></span>
+          </div>
+          <div class="bar-track"><div class="bar-fill" style="width:100%"></div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-row-top">
+            <span class="bar-row-label">Conversion rate</span>
+            <span class="bar-row-value">1.88%<span class="lift">6x account average</span></span>
+          </div>
+          <div class="bar-track"><div class="bar-fill" style="width:63%"></div><div class="bar-baseline-marker" style="left:10%"></div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-row-top">
+            <span class="bar-row-label">Open rate</span>
+            <span class="bar-row-value">52.8%<span class="lift">+7pts vs. account avg</span></span>
+          </div>
+          <div class="bar-track"><div class="bar-fill" style="width:53%"></div><div class="bar-baseline-marker" style="left:46%"></div></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- EXHIBIT 2: 11X BIKE RETURN -->
+  <section class="exhibit reverse">
+    <div class="exhibit-image">
+      <div class="exhibit-image-wrap">
+        <img src="images/11x_bike_return.png" alt="11x Bike Return Rate plain text email">
+      </div>
+    </div>
+    <div class="exhibit-content">
+      <div class="exhibit-tag">Campaign &middot; Plain text</div>
+      <div class="exhibit-number mono">EXHIBIT 02</div>
+      <h2 class="display">One stat, no design, still the best long-form send</h2>
+      <p class="exhibit-subject">"11x Bike Return Rate" — A/B test winner, sent to full D2C list</p>
+
+      <div class="exhibit-bars">
+        <div class="bar-row">
+          <div class="bar-row-top">
+            <span class="bar-row-label">Revenue, full-list send (17,180 recipients)</span>
+            <span class="bar-row-value">$1,241<span class="lift">best of all long-form text sends</span></span>
+          </div>
+          <div class="bar-track"><div class="bar-fill" style="width:24%"></div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-row-top">
+            <span class="bar-row-label">Open rate</span>
+            <span class="bar-row-value">49.7%<span class="lift">+4pts vs. account avg</span></span>
+          </div>
+          <div class="bar-track"><div class="bar-fill" style="width:50%"></div><div class="bar-baseline-marker" style="left:46%"></div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-row-top">
+            <span class="bar-row-label">Unique click rate</span>
+            <span class="bar-row-value">1.34%<span class="lift">4x account average</span></span>
+          </div>
+          <div class="bar-track"><div class="bar-fill" style="width:67%"></div><div class="bar-baseline-marker" style="left:15%"></div></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- EXHIBIT 3: LABOR DAY -->
+  <section class="exhibit">
+    <div class="exhibit-image">
+      <div class="exhibit-image-wrap">
+        <img src="images/labor_day_text.png" alt="Labor Day Flash Sale Last Call plain text email">
+      </div>
+    </div>
+    <div class="exhibit-content">
+      <div class="exhibit-tag">Campaign &middot; Plain text</div>
+      <div class="exhibit-number mono">EXHIBIT 03</div>
+      <h2 class="display">The single highest-revenue send of the year</h2>
+      <p class="exhibit-subject">"Labor Day Flash Sale — Last Call" — final reminder, code expiring at midnight</p>
+
+      <div class="exhibit-bars">
+        <div class="bar-row">
+          <div class="bar-row-top">
+            <span class="bar-row-label">Revenue (single campaign send)</span>
+            <span class="bar-row-value">$2,031<span class="lift">highest of any individual campaign</span></span>
+          </div>
+          <div class="bar-track"><div class="bar-fill" style="width:38%"></div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-row-top">
+            <span class="bar-row-label">Open rate</span>
+            <span class="bar-row-value">48.2%<span class="lift">+2pts vs. account avg</span></span>
+          </div>
+          <div class="bar-track"><div class="bar-fill" style="width:48%"></div><div class="bar-baseline-marker" style="left:46%"></div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-row-top">
+            <span class="bar-row-label">Conversion rate</span>
+            <span class="bar-row-value">0.14%<span class="lift">on 16,925 recipients</span></span>
+          </div>
+          <div class="bar-track"><div class="bar-fill" style="width:46%"></div><div class="bar-baseline-marker" style="left:10%"></div></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- EXHIBIT 4: NUNCHUK LAUNCH -->
+  <section class="exhibit reverse">
+    <div class="exhibit-image">
+      <div class="exhibit-image-wrap">
+        <img src="images/nunchuk_launch_1.png" alt="Nunchuk product launch email, image-heavy design">
+      </div>
+    </div>
+    <div class="exhibit-content">
+      <div class="exhibit-tag">Campaign &middot; Image-led launch</div>
+      <div class="exhibit-number mono">EXHIBIT 04</div>
+      <h2 class="display">A new product, introduced with zero body copy</h2>
+      <p class="exhibit-subject">"Nunchuk Launch Email #1" — first announcement to the full list</p>
+
+      <div class="exhibit-bars">
+        <div class="bar-row">
+          <div class="bar-row-top">
+            <span class="bar-row-label">Unique clicks</span>
+            <span class="bar-row-value">446<span class="lift">top-3 click volume of the year</span></span>
+          </div>
+          <div class="bar-track"><div class="bar-fill" style="width:62%"></div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-row-top">
+            <span class="bar-row-label">Click rate</span>
+            <span class="bar-row-value">2.10%<span class="lift">7x account average</span></span>
+          </div>
+          <div class="bar-track"><div class="bar-fill" style="width:70%"></div><div class="bar-baseline-marker" style="left:10%"></div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-row-top">
+            <span class="bar-row-label">Recipients reached</span>
+            <span class="bar-row-value">21,305<span class="lift">full Newsletter + D2C list</span></span>
+          </div>
+          <div class="bar-track"><div class="bar-fill" style="width:100%"></div></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- EXHIBIT 5: HALLOWEEN -->
+  <section class="exhibit">
+    <div class="exhibit-image">
+      <div class="exhibit-image-wrap">
+        <img src="images/halloween.png" alt="Halloween Trick or Treat seasonal email design">
+      </div>
+    </div>
+    <div class="exhibit-content">
+      <div class="exhibit-tag">Campaign &middot; Seasonal, A/B tested</div>
+      <div class="exhibit-number mono">EXHIBIT 05</div>
+      <h2 class="display">A seasonal hook that earned its place on a sales calendar</h2>
+      <p class="exhibit-subject">"Halloween Trick or Treat" — Variation A, winning subject line</p>
+
+      <div class="exhibit-bars">
+        <div class="bar-row">
+          <div class="bar-row-top">
+            <span class="bar-row-label">Revenue</span>
+            <span class="bar-row-value">$1,030<span class="lift">on a non-discount-led concept</span></span>
+          </div>
+          <div class="bar-track"><div class="bar-fill" style="width:19%"></div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-row-top">
+            <span class="bar-row-label">Open rate</span>
+            <span class="bar-row-value">42.8%<span class="lift">won A/B test outright</span></span>
+          </div>
+          <div class="bar-track"><div class="bar-fill" style="width:43%"></div><div class="bar-baseline-marker" style="left:46%"></div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-row-top">
+            <span class="bar-row-label">Average order value</span>
+            <span class="bar-row-value">$102.98<span class="lift">above program average</span></span>
+          </div>
+          <div class="bar-track"><div class="bar-fill" style="width:55%"></div></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CLOSING -->
+  <section class="closing">
+    <div class="closing-label">Takeaway</div>
+    <h2 class="display">Format didn't decide the winner. Fit did.</h2>
+    <p>A plain-text founder note outsold a fully designed product launch. A welcome-flow email outearned every campaign sent to the full list. The common thread across all five isn't visual style — it's that each one matched its message to exactly where the reader was: just subscribed, mid-consideration, three hours from a deadline, meeting a new product for the first time, or scrolling past a hundred other Halloween sales. Read that way, the job of the email program isn't to pick a format and repeat it. It's to keep diagnosing the moment correctly.</p>
+    <div class="footnote mono">Source: Klaviyo campaign and flow reporting, trailing 12 months from June 2025. Revenue figures reflect Klaviyo's Placed Order attribution model.</div>
+  </section>
+
+</body>
+</html>
