@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Traeger TikTok Launch — Social Video Case Study</title>
+<style>
+  @font-face {
+    font-family: "ITC Avant Garde";
+    src: url("../fonts/ITCAvantGardeStd-Bk.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "ITC Avant Garde";
+    src: url("../fonts/ITCAvantGardeStd-Md.woff2") format("woff2");
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "ITC Avant Garde";
+    src: url("../fonts/ITCAvantGardeStd-Demi.woff2") format("woff2");
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "ITC Avant Garde";
+    src: url("../fonts/ITCAvantGardeStd-DemiObl.woff2") format("woff2");
+    font-weight: 600;
+    font-style: italic;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "ITC Avant Garde";
+    src: url("../fonts/ITCAvantGardeStd-Bold.woff2") format("woff2");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  :root {
+    --background: #0a0a0a;
+    --surface: #111111;
+    --border: #1e1e1e;
+    --foreground: #f0f0f0;
+    --muted: #6b6b6b;
+    --accent: #d4a843;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: "ITC Avant Garde", -apple-system, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+  }
+
+  .display {
+    font-family: "ITC Avant Garde", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+  }
+
+  .mono {
+    font-family: "SF Mono", "JetBrains Mono", "Courier New", monospace;
+    letter-spacing: 0.02em;
+  }
+
+  .hero-eyebrow,
+  .hero-stat-label,
+  .method-label,
+  .closing-label,
+  .exhibit-tag,
+  .exhibit-stat-label,
+  .exhibit-number,
+  .video-tag,
+  .video-stat-label {
+    font-family: "ITC Avant Garde", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 600;
+  }
+
+  /* ===== NAV ===== */
+  .sitenav {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 28px 32px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .sitenav-brand {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--foreground);
+  }
+
+  .sitenav-links {
+    display: flex;
+    gap: 28px;
+  }
+
+  .sitenav-links a {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+
+  .sitenav-links a:hover,
+  .sitenav-links a.active {
+    color: var(--accent);
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 64px 32px 80px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hero-eyebrow {
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  .hero h1 {
+    font-size: clamp(40px, 6vw, 76px);
+    line-height: 0.98;
+    margin-bottom: 32px;
+    max-width: 900px;
+  }
+
+  .hero h1 .accent-word {
+    color: var(--accent);
+  }
+
+  .hero-sub {
+    font-size: 18px;
+    color: var(--muted);
+    max-width: 620px;
+    margin-bottom: 56px;
+  }
+
+  .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .hero-stat {
+    background: var(--background);
+    padding: 28px 20px;
+  }
+
+  .hero-stat-num {
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--foreground);
+    margin-bottom: 6px;
+  }
+
+  .hero-stat-num .accent-word { color: var(--accent); }
+
+  .hero-stat-label {
+    font-size: 12px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  /* ===== SECTION INTRO ===== */
+  .method {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 64px 32px;
+    border-bottom: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 48px;
+  }
+
+  .method-label {
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .method-text {
+    font-size: 17px;
+    color: var(--muted);
+    max-width: 640px;
+  }
+
+  .method-text strong {
+    color: var(--foreground);
+    font-weight: 600;
+  }
+
+  /* ===== VIDEO GRID ===== */
+  .video-section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 96px 32px;
+  }
+
+  .video-section-head {
+    margin-bottom: 48px;
+    max-width: 700px;
+  }
+
+  .video-section-label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+    font-family: "ITC Avant Garde", sans-serif;
+  }
+
+  .video-section h2 {
+    font-size: 32px;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+  }
+
+  .video-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+
+  .video-card {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .video-frame {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 9 / 16;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+
+  .video-frame video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    background: #000;
+  }
+
+  .video-frame .video-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+    color: var(--muted);
+    font-size: 12px;
+    text-align: center;
+    padding: 24px;
+  }
+
+  .video-placeholder svg {
+    width: 28px;
+    height: 28px;
+    opacity: 0.5;
+  }
+
+  .video-tag {
+    display: inline-block;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 4px 10px;
+    border-radius: 100px;
+    margin-bottom: 10px;
+    width: fit-content;
+  }
+
+  .video-title {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+
+  .video-stats {
+    display: flex;
+    gap: 16px;
+  }
+
+  .video-stat-label {
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 3px;
+  }
+
+  .video-stat-num {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--foreground);
+  }
+
+  .video-pending {
+    font-size: 11px;
+    color: var(--muted);
+    font-style: italic;
+    margin-top: 8px;
+  }
+
+  /* ===== CLOSING ===== */
+  .closing {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 96px 32px 140px;
+    border-top: 1px solid var(--border);
+  }
+
+  .closing-label {
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 24px;
+  }
+
+  .closing h2 {
+    font-size: 36px;
+    max-width: 760px;
+    line-height: 1.15;
+    margin-bottom: 24px;
+    letter-spacing: -0.01em;
+  }
+
+  .closing p {
+    font-size: 16px;
+    color: var(--muted);
+    max-width: 640px;
+  }
+
+  .footnote {
+    margin-top: 48px;
+    font-size: 12px;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+    padding-top: 24px;
+  }
+
+  @media (max-width: 880px) {
+    .hero { padding: 48px 20px 56px; }
+    .hero-stats { grid-template-columns: repeat(2, 1fr); }
+    .method { grid-template-columns: 1fr; gap: 20px; padding: 48px 20px; }
+    .video-section { padding: 56px 20px; }
+    .video-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+    .closing { padding: 64px 20px 100px; }
+    .closing h2 { font-size: 28px; }
+  }
+
+  @media (max-width: 560px) {
+    .video-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+  <nav class="sitenav">
+    <div class="sitenav-brand">Matt Kretzschmar</div>
+    <div class="sitenav-links">
+      <a href="/">Bikebac</a>
+      <a class="active" href="/traeger/">Traeger</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-eyebrow">Traeger Pellet Grills &middot; TikTok</div>
+    <h1 class="display">Zero to <span class="accent-word">210K</span><br>in 24 months</h1>
+    <p class="hero-sub">Launched Traeger's TikTok channel from scratch — researching, planning, and distributing content with Sprinklr to build an audience and a content engine from the ground up. Many videos were also adapted for Instagram, which carries its own performance numbers below.</p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-num"><span class="accent-word">210K</span></div>
+        <div class="hero-stat-label">TikTok followers in 24 months</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">135.6M</div>
+        <div class="hero-stat-label">Instagram plays, Apr 2022&ndash;Jun 2024</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">153.3M</div>
+        <div class="hero-stat-label">Instagram impressions, same window</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">5.2M</div>
+        <div class="hero-stat-label">Instagram total engagements</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- METHOD -->
+  <section class="method">
+    <div class="method-label">The window (Instagram)</div>
+    <div class="method-text">
+      Figures below cover <strong>April 2, 2022 &ndash; June 9, 2024</strong> for Traeger's Instagram presence, pulled from Sprinklr — distinct from the TikTok follower growth above, though much of the content overlapped across both platforms. Across that window, Instagram generated <strong>140.8M reach</strong> (92% of total impressions), grew by <strong>43,099 Instagram followers</strong>, and logged <strong>3.22M likes, 720,919 saves, and 1.19M shares</strong> across the content slate.
+    </div>
+  </section>
+
+  <!-- VIDEO GRID -->
+  <section class="video-section">
+    <div class="video-section-head">
+      <div class="video-section-label">Featured content</div>
+      <h2 class="display">Five Instagram videos from the channel</h2>
+    </div>
+
+    <div class="video-grid">
+
+      <!-- VIDEO 1: Ribs (top performer) -->
+      <div class="video-card">
+        <div class="video-frame">
+          <video controls preload="metadata">
+            <source src="https://pub-5322458f521948a39e948c42ab157ce0.r2.dev/Traeger%20Grills%20on%20Instagram%20These%20are%20going%20to%20be%20the%20best%20ribs.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="video-tag">Instagram Reels</div>
+        <div class="video-title">These Are Going to Be the Best Ribs</div>
+        <div class="video-stats">
+          <div>
+            <div class="video-stat-label">Plays</div>
+            <div class="video-stat-num">1.6M</div>
+          </div>
+          <div>
+            <div class="video-stat-label">Likes</div>
+            <div class="video-stat-num">36,100</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIDEO 2: Parmesan Pickles -->
+      <div class="video-card">
+        <div class="video-frame">
+          <video controls preload="metadata">
+            <source src="https://pub-5322458f521948a39e948c42ab157ce0.r2.dev/Traeger%20Grills%20on%20Instagram%20Fried%20Parmesan%20Pickles%20easy%20to%20make.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="video-tag">Instagram Reels</div>
+        <div class="video-title">Fried Parmesan Pickles</div>
+        <div class="video-stats">
+          <div>
+            <div class="video-stat-label">Plays</div>
+            <div class="video-stat-num">898,932</div>
+          </div>
+          <div>
+            <div class="video-stat-label">Likes</div>
+            <div class="video-stat-num">18,025</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIDEO 3: Trash Can Nachos -->
+      <div class="video-card">
+        <div class="video-frame">
+          <video controls preload="metadata">
+            <source src="https://pub-5322458f521948a39e948c42ab157ce0.r2.dev/Traeger%20Grills%20on%20Instagram%20Trash%20Can%20Nachos%20This%20is%20our%20version.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="video-tag">Instagram Reels</div>
+        <div class="video-title">Trash Can Nachos</div>
+        <div class="video-stats">
+          <div>
+            <div class="video-stat-label">Plays</div>
+            <div class="video-stat-num">667,207</div>
+          </div>
+          <div>
+            <div class="video-stat-label">Likes</div>
+            <div class="video-stat-num">19,239</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIDEO 4: Pat McAfee -->
+      <div class="video-card">
+        <div class="video-frame">
+          <video controls preload="metadata">
+            <source src="https://pub-5322458f521948a39e948c42ab157ce0.r2.dev/Traeger%20Grills%20on%20Instagram%20Looks%20like%20patmcafeeshow%20aint%20mad%20ab.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="video-tag">Instagram Reels</div>
+        <div class="video-title">Pat McAfee Show Beef Rib Shoutout</div>
+        <div class="video-stats">
+          <div>
+            <div class="video-stat-label">Plays</div>
+            <div class="video-stat-num">373,765</div>
+          </div>
+          <div>
+            <div class="video-stat-label">Likes</div>
+            <div class="video-stat-num">6,822</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIDEO 5: Ranger Setup -->
+      <div class="video-card">
+        <div class="video-frame">
+          <video controls preload="metadata">
+            <source src="https://pub-5322458f521948a39e948c42ab157ce0.r2.dev/Traeger%20Grills%20on%20Instagram%20Its%20as%20easy%20as%201%202%203%20to%20set%20up%20your.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="video-tag">Instagram Reels</div>
+        <div class="video-title">Ranger Setup, Easy as 1-2-3</div>
+        <div class="video-stats">
+          <div>
+            <div class="video-stat-label">Plays</div>
+            <div class="video-stat-num">314,455</div>
+          </div>
+          <div>
+            <div class="video-stat-label">Likes</div>
+            <div class="video-stat-num">5,896</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CLOSING -->
+  <section class="closing">
+    <div class="closing-label">Source</div>
+    <div class="footnote mono">Source: Sprinklr social analytics, April 2, 2022 &ndash; June 9, 2024. The 210K follower figure reflects the Traeger TikTok channel specifically. All other metrics on this page (plays, impressions, engagements, follower growth) reflect Traeger's Instagram performance over the same window. Many videos were repurposed across both platforms, but the two channels are tracked and reported separately.</div>
+  </section>
+
+</body>
+</html>
